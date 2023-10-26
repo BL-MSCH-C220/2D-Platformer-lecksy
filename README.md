@@ -10,6 +10,8 @@ Built with Godot 4.1
 ## What Makes this a Game?
 
 ## References
+https://www.fandomspot.com/minecraft-simple-texture-packs/
+https://www.planetminecraft.com/texture-pack/ferocious-64x64-original-idea/
 
 ## Future Development
 
