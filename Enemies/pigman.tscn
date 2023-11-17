@@ -1,0 +1,112 @@
+[gd_scene load_steps=16 format=3 uid="uid://837mc01gl12j"]
+
+[ext_resource type="Script" path="res://Enemies/pigman.gd" id="1_u52su"]
+[ext_resource type="Texture2D" uid="uid://ufwr21f01w4p" path="res://Assets/Untitled-1.png" id="2_d57rq"]
+[ext_resource type="Script" path="res://Enemies/pigman_statemachine.gd" id="3_ys8fm"]
+[ext_resource type="Script" path="res://Enemies/pigman_moving.gd" id="4_oyrbu"]
+[ext_resource type="Script" path="res://Enemies/pigman_attacking.gd" id="5_cdupy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2lyq"]
+atlas = ExtResource("2_d57rq")
+region = Rect2(263, 384, 58, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcs82"]
+atlas = ExtResource("2_d57rq")
+region = Rect2(326, 256, 58, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wom3e"]
+atlas = ExtResource("2_d57rq")
+region = Rect2(11, 384, 58, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gda5r"]
+atlas = ExtResource("2_d57rq")
+region = Rect2(74, 384, 58, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fu27g"]
+atlas = ExtResource("2_d57rq")
+region = Rect2(137, 384, 58, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8351j"]
+atlas = ExtResource("2_d57rq")
+region = Rect2(192, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4x6h"]
+atlas = ExtResource("2_d57rq")
+region = Rect2(256, 256, 64, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_frpic"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2lyq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcs82")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wom3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gda5r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fu27g")
+}],
+"loop": false,
+"name": &"Attacking",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8351j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4x6h")
+}],
+"loop": true,
+"name": &"Moving",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mw5hy"]
+size = Vector2(56, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52rij"]
+size = Vector2(56, 20)
+
+[node name="Pigman" type="CharacterBody2D"]
+script = ExtResource("1_u52su")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_frpic")
+animation = &"Attacking"
+frame = 4
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_mw5hy")
+
+[node name="Attack" type="RayCast2D" parent="."]
+target_position = Vector2(48, 0)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_ys8fm")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("4_oyrbu")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("5_cdupy")
+
+[node name="Timer" type="Timer" parent="StateMachine/Attack"]
+
+[node name="Above_and_Below" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Above_and_Below"]
+position = Vector2(4, -72)
+shape = SubResource("RectangleShape2D_52rij")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="StateMachine/Attack/Timer" to="StateMachine/Attack" method="_on_timer_timeout"]
+[connection signal="body_entered" from="Above_and_Below" to="." method="_on_above_and_below_body_entered"]

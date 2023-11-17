@@ -1,0 +1,110 @@
+[gd_scene load_steps=16 format=3 uid="uid://bigirdugw6rb8"]
+
+[ext_resource type="Script" path="res://Enemies/enderman.gd" id="1_sx4q0"]
+[ext_resource type="Texture2D" uid="uid://dqo4d85m1jtya" path="res://Assets/Untitled-2.png" id="2_llllu"]
+[ext_resource type="Script" path="res://Enemies/enderman_statemachine.gd" id="3_dwch0"]
+[ext_resource type="Script" path="res://Enemies/enderman_moving.gd" id="4_8yrb1"]
+[ext_resource type="Script" path="res://Enemies/enderman_attacking.gd" id="5_rr6yp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dy4c5"]
+atlas = ExtResource("2_llllu")
+region = Rect2(320, 0, 64, 196)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0r5pr"]
+atlas = ExtResource("2_llllu")
+region = Rect2(0, 196, 64, 196)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2go0"]
+atlas = ExtResource("2_llllu")
+region = Rect2(320, 0, 64, 196)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmua7"]
+atlas = ExtResource("2_llllu")
+region = Rect2(0, 0, 64, 196)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tivw0"]
+atlas = ExtResource("2_llllu")
+region = Rect2(64, 0, 64, 196)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drud4"]
+atlas = ExtResource("2_llllu")
+region = Rect2(128, 0, 64, 196)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h00kw"]
+atlas = ExtResource("2_llllu")
+region = Rect2(192, 0, 64, 196)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o7phw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dy4c5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0r5pr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h2go0")
+}],
+"loop": false,
+"name": &"Attacking",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmua7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tivw0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drud4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h00kw")
+}],
+"loop": true,
+"name": &"Moving",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f70xr"]
+size = Vector2(48, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mrg0e"]
+size = Vector2(48, 20)
+
+[node name="Enderman" type="CharacterBody2D"]
+script = ExtResource("1_sx4q0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_o7phw")
+animation = &"Attacking"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_f70xr")
+
+[node name="Attack" type="RayCast2D" parent="."]
+target_position = Vector2(48, 0)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_dwch0")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("4_8yrb1")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("5_rr6yp")
+
+[node name="Timer" type="Timer" parent="StateMachine/Attack"]
+
+[node name="Above_and_Below" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Above_and_Below"]
+position = Vector2(8, -104)
+shape = SubResource("RectangleShape2D_mrg0e")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="StateMachine/Attack/Timer" to="StateMachine/Attack" method="_on_timer_timeout"]
+[connection signal="body_entered" from="Above_and_Below" to="." method="_on_above_and_below_body_entered"]
