@@ -1,13 +1,12 @@
-[gd_scene load_steps=25 format=3 uid="uid://ccuf1v0paotck"]
+[gd_scene load_steps=24 format=3 uid="uid://ccuf1v0paotck"]
 
 [ext_resource type="Texture2D" uid="uid://8hdrdor3uleu" path="res://Assets/overworld.png" id="1_t2fyk"]
 [ext_resource type="Texture2D" uid="uid://c2wwuvoo1ytlx" path="res://Assets/mc.png" id="2_5jq6l"]
+[ext_resource type="Script" path="res://Player/Player_Container.gd" id="3_ulxat"]
 [ext_resource type="Script" path="res://Levels/Exit1.gd" id="3_xgg0h"]
 [ext_resource type="PackedScene" uid="uid://cb5st3845kkva" path="res://Enemies/zombie.tscn" id="5_65ox2"]
-[ext_resource type="PackedScene" uid="uid://e1ocrmrdthy2" path="res://Player/player.tscn" id="5_qemql"]
 [ext_resource type="Texture2D" uid="uid://se63xyth31cm" path="res://Assets/xp.png" id="6_ru75g"]
 [ext_resource type="Texture2D" uid="uid://cv35rucq1bh6v" path="res://Assets/exit1.png" id="7_u40qd"]
-[ext_resource type="Script" path="res://Levels/Camera2D.gd" id="8_h18fu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kturq"]
 texture = ExtResource("1_t2fyk")
@@ -1257,6 +1256,7 @@ metadata/_edit_group_ = true
 shape = SubResource("RectangleShape2D_3tc0l")
 
 [node name="Player_Container" type="Node2D" parent="."]
+script = ExtResource("3_ulxat")
 
 [node name="Spawn" type="Marker2D" parent="Player_Container"]
 position = Vector2(100, 500)
@@ -1278,13 +1278,6 @@ texture = ExtResource("7_u40qd")
 light_mask = 2
 visibility_layer = 2
 polygon = PackedVector2Array(4872, 3160, 4920, 3160, 4944, 3200, 4992, 3224, 5000, 3264, 4944, 3288, 4920, 3336, 4880, 3336, 4856, 3280, 4784, 3256, 4784, 3224, 4856, 3200, 4864, 3160, 4872, 3152, 4872, 3168)
-
-[node name="Player" parent="." instance=ExtResource("5_qemql")]
-light_mask = 11
-visibility_layer = 11
-
-[node name="Camera" type="Camera2D" parent="Player"]
-zoom = Vector2(0.5, 0.5)
 
 [node name="Zombie" parent="." instance=ExtResource("5_65ox2")]
 
@@ -1339,8 +1332,5 @@ offset_right = 410.0
 offset_bottom = 40.0
 text = "Coins: 0"
 vertical_alignment = 1
-
-[node name="Camera" type="Camera2D" parent="."]
-script = ExtResource("8_h18fu")
 
 [connection signal="body_entered" from="Exit" to="Exit" method="_on_body_entered"]
