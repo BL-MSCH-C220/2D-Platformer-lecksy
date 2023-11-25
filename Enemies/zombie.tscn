@@ -100,6 +100,7 @@ script = ExtResource("4_vtjxk")
 script = ExtResource("5_c4myq")
 
 [node name="Timer" type="Timer" parent="StateMachine/Attack"]
+wait_time = 0.25
 one_shot = true
 
 [node name="Above_and_Below" type="Area2D" parent="."]
