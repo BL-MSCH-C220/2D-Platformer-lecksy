@@ -1,6 +1,7 @@
 extends Node
 
 var coins = 0
+var score = 0
 
 
 func _unhandled_input(event):
@@ -13,3 +14,6 @@ func add_coin():
 	var Coins = get_node_or_null("/root/Game/UI/HUD/Coins")
 	if Coins != null:
 		Coins.text = "Coins: " + str(coins)
+
+func update_score(s):
+	score += 5

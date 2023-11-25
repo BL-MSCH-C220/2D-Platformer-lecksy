@@ -23,7 +23,7 @@ var should_direction_flip = true # wether or not player controls (left/right) ca
 var score = 0
 
 func _ready():
-	pass
+	$Camera.enabled = true
 
 
 func _physics_process(_delta):
@@ -67,7 +67,7 @@ func attack():
 		var target = $Attack.get_collider()
 		print(target)
 		if target.has_method("damage"):
-			target.damage()
+			target.damage(10)
 
 func damage():
 	queue_free()
