@@ -31,7 +31,7 @@ func set_animation(anim):
 	if $AnimatedSprite2D.sprite_frames.has_animation(anim): $AnimatedSprite2D.play(anim)
 	else: $AnimatedSprite2D.play()
 
-func damage(d):
+func damage(_d):
 	Global.update_score(10)
 	queue_free()
 

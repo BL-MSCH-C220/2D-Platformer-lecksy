@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 @export var walking = 200
 @export var running = 300
-@export var path = [Vector2(1300,1670), Vector2(2250,1670)]
+@export var path = [Vector2(7824,1408), Vector2(8440,1408)]
 var direction = 1
 
 func _ready():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://rnrjfec7ltx3"]
+[gd_scene load_steps=16 format=3 uid="uid://rnrjfec7ltx3"]
 
 [ext_resource type="Texture2D" uid="uid://c2wwuvoo1ytlx" path="res://Assets/mc.png" id="2_octki"]
 [ext_resource type="Script" path="res://Levels/Exit1.gd" id="3_225ob"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Player/Player_Container.gd" id="4_1nn3a"]
 [ext_resource type="Texture2D" uid="uid://bl8e5j7na7kyv" path="res://Assets/exit2.png" id="5_acmj7"]
 [ext_resource type="Script" path="res://Player/Coins.gd" id="6_d5g0v"]
+[ext_resource type="PackedScene" uid="uid://csc4rmginxi1t" path="res://Levels/pause.tscn" id="7_0erh6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ybiu7"]
 texture = ExtResource("2_octki")
@@ -695,7 +696,6 @@ script = ExtResource("4_1nn3a")
 position = Vector2(2.08165e-12, 300)
 
 [node name="Pigman" parent="." instance=ExtResource("3_to5s7")]
-position = Vector2(4276.1, 1586.59)
 
 [node name="Lava" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_ytrid")
@@ -733,5 +733,7 @@ offset_right = 410.0
 offset_bottom = 40.0
 text = "Coins:"
 vertical_alignment = 1
+
+[node name="Pause" parent="UI" instance=ExtResource("7_0erh6")]
 
 [connection signal="body_entered" from="Exit2" to="Exit2" method="_on_body_entered"]
